@@ -349,7 +349,12 @@ footer .brand-mark {
   background: var(--mint-700);
   box-shadow: 0 8px 18px rgba(44, 114, 104, 0.22);
   pointer-events: none;
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), width 0.75s cubic-bezier(0.22, 1, 0.36, 1), height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), width 0.75s cubic-bezier(0.22, 1, 0.36, 1), height 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+}
+
+.service-tabs.is-indicator-ready .service-tab-indicator {
+  opacity: 1;
 }
 
 .service-tab {
@@ -490,7 +495,59 @@ footer .brand-mark {
 
 .about-cred div { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; }
 
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.steps-timeline {
+  position: relative;
+}
+
+.steps-line {
+  position: absolute;
+  top: 18px;
+  left: 6%;
+  right: 6%;
+  height: 3px;
+  background: var(--mint-100);
+  border-radius: 999px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.steps-line-fill {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint-400), var(--mint-600));
+  border-radius: 999px;
+  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1), height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .steps-timeline {
+    padding-left: 28px;
+  }
+
+  .steps-line {
+    top: 8px;
+    bottom: 8px;
+    left: 6px;
+    right: auto;
+    width: 3px;
+    height: auto;
+  }
+
+  .steps-line-fill {
+    width: 100%;
+    height: 0%;
+  }
+}
 
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
 
@@ -502,6 +559,25 @@ footer .brand-mark {
   border-radius: var(--radius-md);
   padding: 26px 22px;
   position: relative;
+  opacity: 0.5;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease, border-color 0.6s ease;
+}
+
+.step.is-revealed {
+  opacity: 0.78;
+  transform: translate3d(0, 0, 0);
+}
+
+.step.is-passed {
+  opacity: 0.68;
+}
+
+.step.is-active {
+  opacity: 1;
+  transform: translate3d(0, -4px, 0);
+  box-shadow: var(--shadow);
+  border-color: rgba(62, 156, 142, 0.22);
 }
 
 .step-num {
@@ -509,8 +585,40 @@ footer .brand-mark {
   font-weight: 800;
   font-size: 14px;
   color: var(--coral-500);
-  display: block;
+  display: inline-block;
   margin-bottom: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.step.is-active .step-num {
+  color: var(--coral-600);
+  animation: step-num-pulse 0.65s ease;
+}
+
+@keyframes step-num-pulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .step:not(.is-revealed) {
+    opacity: 0.6;
+  }
+
+  .step.is-active .step-num {
+    animation: none;
+  }
+
+  .steps-line-fill {
+    transition: none;
+  }
 }
 
 .step h4 { font-size: 18px; margin-bottom: 8px; }

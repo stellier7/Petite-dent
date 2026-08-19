@@ -220,7 +220,9 @@
       <h2>Qué esperar en la primera visita</h2>
       <p>Sabemos que como papá o mamá también te da un poco de nervio. Así se siente normalmente una primera cita en Petite Dent.</p>
     </div>
-    <div class="steps">
+    <div class="steps-timeline">
+      <div class="steps-line" aria-hidden="true"><span class="steps-line-fill"></span></div>
+      <div class="steps">
       <div class="step">
         <span class="step-num">Al llegar</span>
         <h4>Bienvenida sin prisa</h4>
@@ -240,6 +242,7 @@
         <span class="step-num">Al salir</span>
         <h4>Plan claro para casa</h4>
         <p>Te llevas indicaciones simples de cuidado e higiene, y sabes exactamente cuándo volver.</p>
+      </div>
       </div>
     </div>
   </div>
@@ -803,6 +806,59 @@
     artObserver.observe(heroArt);
   }
 
+  function initStepsTimeline() {
+    var stepsTimeline = document.querySelector('.steps-timeline');
+    var steps = stepsTimeline ? stepsTimeline.querySelectorAll('.step') : [];
+    var lineFill = document.querySelector('.steps-line-fill');
+    if (!steps.length || !lineFill) return;
+
+    var revealedSteps = [];
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function isVerticalLayout() {
+      return window.matchMedia('(max-width: 900px)').matches;
+    }
+
+    function updateStepsTimeline() {
+      if (!revealedSteps.length) return;
+
+      var maxIndex = Math.max.apply(null, revealedSteps);
+      var progress = ((maxIndex + 1) / steps.length) * 100;
+
+      if (isVerticalLayout()) {
+        lineFill.style.width = '100%';
+        lineFill.style.height = progress + '%';
+      } else {
+        lineFill.style.height = '100%';
+        lineFill.style.width = progress + '%';
+      }
+
+      steps.forEach(function (step, index) {
+        var isRevealed = revealedSteps.indexOf(index) !== -1;
+        step.classList.toggle('is-revealed', isRevealed);
+        step.classList.toggle('is-passed', isRevealed && index < maxIndex);
+        step.classList.toggle('is-active', index === maxIndex);
+      });
+    }
+
+    steps.forEach(function (step, index) {
+      var stepObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          if (revealedSteps.indexOf(index) === -1) {
+            revealedSteps.push(index);
+            updateStepsTimeline();
+          }
+          if (!reduced) stepObserver.unobserve(step);
+        });
+      }, { threshold: 0.42, rootMargin: '0px 0px -8% 0px' });
+
+      stepObserver.observe(step);
+    });
+
+    window.addEventListener('resize', updateStepsTimeline);
+  }
+
   function initTrustBarReveal() {
     var trustbar = document.querySelector('.trustbar');
     if (!trustbar) return;
@@ -820,10 +876,11 @@
   }
 
   function initScrollReveal() {
+    var stepsSection = document.querySelector('.steps-timeline');
     var targets = [
+      stepsSection && stepsSection.closest('section') ? stepsSection.closest('section').querySelector('.section-head') : null,
       document.getElementById('servicios'),
       sectionOf(document.querySelector('.about')),
-      sectionOf(document.querySelector('.steps')),
       sectionOf(document.querySelector('.testi-grid')),
       sectionOf(document.querySelector('.faq')),
       sectionOf(document.querySelector('.payment-card')),
@@ -938,6 +995,7 @@
   initHeroSequence();
   initHeroArtEntrance();
   initTrustBarReveal();
+  initStepsTimeline();
   initScrollReveal();
   initParallax();
   initWhatsAppFloat();
