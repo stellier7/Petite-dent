@@ -501,28 +501,28 @@
   }
 
   body.motion-ready .hero-grid > div:first-child > .eyebrow {
-    animation: motion-hero-in 0.34s ease forwards;
-    animation-delay: 0.04s;
+    animation: motion-hero-in 0.3s ease forwards;
+    animation-delay: 0.03s;
   }
 
   body.motion-ready .hero-grid > div:first-child > h1 {
-    animation: motion-hero-in 0.34s ease forwards;
-    animation-delay: 0.1s;
+    animation: motion-hero-in 0.3s ease forwards;
+    animation-delay: 0.08s;
   }
 
   body.motion-ready .hero-grid > div:first-child > .hero-sub {
-    animation: motion-hero-in 0.34s ease forwards;
-    animation-delay: 0.16s;
+    animation: motion-hero-in 0.3s ease forwards;
+    animation-delay: 0.13s;
   }
 
   body.motion-ready .hero-grid > div:first-child > .hero-ctas {
-    animation: motion-hero-in 0.34s ease forwards;
-    animation-delay: 0.22s;
+    animation: motion-hero-in 0.3s ease forwards;
+    animation-delay: 0.18s;
   }
 
   body.motion-ready .hero-grid > div:first-child > .trust-chip {
-    animation: motion-hero-in 0.34s ease forwards;
-    animation-delay: 0.28s;
+    animation: motion-hero-in 0.3s ease forwards;
+    animation-delay: 0.23s;
   }
 
   @keyframes motion-hero-in {
@@ -532,11 +532,47 @@
     }
   }
 
+  /* Hero image panel — dramatic slide from left on desktop */
+  .hero-art {
+    opacity: 0;
+    transform: translate3d(-140px, 0, 0) scale(0.94);
+  }
+
+  body.motion-ready .hero-art {
+    animation: motion-hero-art-in 0.78s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.14s;
+  }
+
+  @keyframes motion-hero-art-in {
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @media (max-width: 880px) {
+    .hero-art {
+      transform: translate3d(-52px, 28px, 0) scale(0.97);
+    }
+
+    body.motion-ready .hero-art {
+      animation: motion-hero-art-in-mobile 0.58s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 0.1s;
+    }
+
+    @keyframes motion-hero-art-in-mobile {
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+  }
+
   /* --- Scroll reveal --- */
   .motion-reveal {
     opacity: 0;
-    transform: translate3d(0, 18px, 0);
-    transition: opacity 0.55s ease, transform 0.55s ease;
+    transform: translate3d(0, 22px, 0);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: opacity, transform;
   }
 
@@ -625,7 +661,8 @@
     .hero-grid > div:first-child > h1,
     .hero-grid > div:first-child > .hero-sub,
     .hero-grid > div:first-child > .hero-ctas,
-    .hero-grid > div:first-child > .trust-chip {
+    .hero-grid > div:first-child > .trust-chip,
+    .hero-art {
       transform: none;
       animation: motion-hero-fade 0.35s ease forwards !important;
       animation-delay: 0s !important;
@@ -636,6 +673,7 @@
     body.motion-ready .hero-grid > div:first-child > .hero-sub { animation-delay: 0.12s !important; }
     body.motion-ready .hero-grid > div:first-child > .hero-ctas { animation-delay: 0.16s !important; }
     body.motion-ready .hero-grid > div:first-child > .trust-chip { animation-delay: 0.2s !important; }
+    body.motion-ready .hero-art { animation-delay: 0.24s !important; }
 
     @keyframes motion-hero-fade {
       to { opacity: 1; }
@@ -682,6 +720,7 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var parallaxNodes = [];
   var parallaxTicking = false;
+  var heroParallaxReady = false;
 
   function sectionOf(el) {
     return el ? (el.closest('section') || el) : null;
@@ -729,15 +768,28 @@
     if (reducedMotion || !parallaxNodes.length) return;
 
     var viewportH = window.innerHeight;
+    var isDesktop = window.innerWidth > 880;
 
-    parallaxNodes.forEach(function (el) {
+    parallaxNodes.forEach(function (node) {
+      var el = node.el;
+      if (node.isHero && !heroParallaxReady) return;
+
       var rect = el.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > viewportH) return;
 
-      var offset = (rect.top - viewportH * 0.32) * 0.1;
-      if (offset > 24) offset = 24;
-      if (offset < -24) offset = -24;
-      el.style.transform = 'translate3d(0, ' + offset.toFixed(2) + 'px, 0)';
+      var progress = rect.top - viewportH * 0.3;
+      var offsetY = progress * node.factorY;
+      if (offsetY > node.maxY) offsetY = node.maxY;
+      if (offsetY < -node.maxY) offsetY = -node.maxY;
+
+      var offsetX = 0;
+      if (node.factorX && isDesktop) {
+        offsetX = progress * node.factorX;
+        if (offsetX > node.maxX) offsetX = node.maxX;
+        if (offsetX < -node.maxX) offsetX = -node.maxX;
+      }
+
+      el.style.transform = 'translate3d(' + offsetX.toFixed(2) + 'px, ' + offsetY.toFixed(2) + 'px, 0)';
     });
   }
 
@@ -754,16 +806,40 @@
     var heroArt = document.querySelector('.hero-art');
     var aboutPhoto = document.querySelector('.about .site-photo');
 
-    [heroArt, aboutPhoto].forEach(function (el) {
-      if (!el) return;
-      el.classList.add('motion-parallax');
-      parallaxNodes.push(el);
-    });
+    if (heroArt) {
+      heroArt.classList.add('motion-parallax');
+      parallaxNodes.push({
+        el: heroArt,
+        isHero: true,
+        factorY: 0.24,
+        maxY: 72,
+        factorX: 0.08,
+        maxX: 36
+      });
+    }
+
+    if (aboutPhoto) {
+      aboutPhoto.classList.add('motion-parallax');
+      parallaxNodes.push({
+        el: aboutPhoto,
+        isHero: false,
+        factorY: 0.18,
+        maxY: 52,
+        factorX: 0,
+        maxX: 0
+      });
+    }
 
     if (!parallaxNodes.length) return;
 
     window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
     window.addEventListener('resize', requestParallaxUpdate, { passive: true });
+
+    window.setTimeout(function () {
+      heroParallaxReady = true;
+      requestParallaxUpdate();
+    }, 920);
+
     requestParallaxUpdate();
   }
 
