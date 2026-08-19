@@ -347,27 +347,27 @@
     <div class="faq">
       <details class="faq-item" open>
         <summary class="faq-q">¿A qué edad debe ser la primera visita? <span class="plus">+</span></summary>
-        <p class="faq-a">Lo ideal es que la primera visita sea cerca de la salida del primer diente o antes del primer año. No hace falta esperar a que aparezca un problema — entre antes, más fácil es que tu hijo se sienta cómodo con el consultorio.</p>
+        <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Lo ideal es que la primera visita sea cerca de la salida del primer diente o antes del primer año. No hace falta esperar a que aparezca un problema — entre antes, más fácil es que tu hijo se sienta cómodo con el consultorio.</p></div></div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">¿Le va a doler a mi hijo? <span class="plus">+</span></summary>
-        <p class="faq-a">La mayoría de las citas son de prevención y no duelen en absoluto. Cuando un tratamiento sí lo requiere, se explica cada paso a la altura del niño y se avanza solo cuando está listo, priorizando siempre su comodidad.</p>
+        <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">La mayoría de las citas son de prevención y no duelen en absoluto. Cuando un tratamiento sí lo requiere, se explica cada paso a la altura del niño y se avanza solo cuando está listo, priorizando siempre su comodidad.</p></div></div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">¿Cuánto dura una cita? <span class="plus">+</span></summary>
-        <p class="faq-a">Las citas de prevención y adaptación suelen durar entre 20 y 40 minutos. Tratamientos más específicos pueden tomar más tiempo; te lo indicamos al agendar según el caso de tu hijo.</p>
+        <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Las citas de prevención y adaptación suelen durar entre 20 y 40 minutos. Tratamientos más específicos pueden tomar más tiempo; te lo indicamos al agendar según el caso de tu hijo.</p></div></div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">¿Aceptan seguros médicos o planes de pago? <span class="plus">+</span></summary>
-        <p class="faq-a">Aceptamos seguros como <strong>BAC</strong> y <strong>Ficohsa</strong>. Escríbenos por WhatsApp con los datos de tu póliza o pregúntanos por otras opciones de pago — te confirmamos qué aplica para tu caso antes de la cita.</p>
+        <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Aceptamos seguros como <strong>BAC</strong> y <strong>Ficohsa</strong>. Escríbenos por WhatsApp con los datos de tu póliza o pregúntanos por otras opciones de pago — te confirmamos qué aplica para tu caso antes de la cita.</p></div></div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">Mi hijo se pone muy nervioso o llora en el dentista, ¿qué hacen? <span class="plus">+</span></summary>
-        <p class="faq-a">Es más común de lo que parece. Usamos citas de adaptación para que el niño conozca el espacio sin presión, vamos a su ritmo, y tú puedes acompañarlo durante toda la consulta.</p>
+        <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Es más común de lo que parece. Usamos citas de adaptación para que el niño conozca el espacio sin presión, vamos a su ritmo, y tú puedes acompañarlo durante toda la consulta.</p></div></div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">¿Atienden emergencias fuera de horario? <span class="plus">+</span></summary>
-        <p class="faq-a">Escríbenos por WhatsApp apenas ocurra el golpe o dolor — te indicamos los primeros pasos y la disponibilidad más cercana para atenderlo.</p>
+        <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Escríbenos por WhatsApp apenas ocurra el golpe o dolor — te indicamos los primeros pasos y la disponibilidad más cercana para atenderlo.</p></div></div>
       </details>
     </div>
   </div>
@@ -400,7 +400,7 @@
         </ul>
       </div>
       <div style="text-align:center;">
-        <a class="btn" style="background:#fff; color:var(--coral-600); box-shadow:0 10px 24px rgba(0,0,0,0.15);" href="https://wa.me/50498172777?text=Es%20una%20urgencia%20dental%2C%20necesito%20ayuda" target="_blank" rel="noopener">Escribir urgencia por WhatsApp</a>
+        <a class="btn emergency-wa-btn" style="background:#fff; color:var(--coral-600); box-shadow:0 10px 24px rgba(0,0,0,0.15);" href="https://wa.me/50498172777?text=Es%20una%20urgencia%20dental%2C%20necesito%20ayuda" target="_blank" rel="noopener">Escribir urgencia por WhatsApp</a>
       </div>
     </div>
   </div>
@@ -697,6 +697,168 @@
     }
   }
 
+  /* --- Testimonios stagger --- */
+  .testi-grid .testi {
+    opacity: 0;
+    transform: translate3d(-32px, 0, 0);
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  @media (max-width: 900px) {
+    .testi-grid .testi {
+      transform: translate3d(0, 28px, 0);
+    }
+  }
+
+  .testi-grid.is-inview .testi {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .testi-grid.is-inview .testi:nth-child(1) { transition-delay: 0ms; }
+  .testi-grid.is-inview .testi:nth-child(2) { transition-delay: 80ms; }
+  .testi-grid.is-inview .testi:nth-child(3) { transition-delay: 160ms; }
+
+  .testi-grid .testi-stars {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .testi-grid .testi p.body,
+  .testi-grid .testi-who {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .testi-grid.is-inview .testi-stars {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .testi-grid.is-inview .testi:nth-child(1) .testi-stars { transition-delay: 0ms; }
+  .testi-grid.is-inview .testi:nth-child(2) .testi-stars { transition-delay: 80ms; }
+  .testi-grid.is-inview .testi:nth-child(3) .testi-stars { transition-delay: 160ms; }
+
+  .testi-grid.is-inview .testi:nth-child(1) p.body,
+  .testi-grid.is-inview .testi:nth-child(1) .testi-who { transition-delay: 200ms; }
+  .testi-grid.is-inview .testi:nth-child(2) p.body,
+  .testi-grid.is-inview .testi:nth-child(2) .testi-who { transition-delay: 280ms; }
+  .testi-grid.is-inview .testi:nth-child(3) p.body,
+  .testi-grid.is-inview .testi:nth-child(3) .testi-who { transition-delay: 360ms; }
+
+  .testi-grid.is-inview .testi p.body,
+  .testi-grid.is-inview .testi-who {
+    opacity: 1;
+  }
+
+  /* --- FAQ stagger + accordion polish --- */
+  .faq .faq-item {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .faq.is-inview .faq-item {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .faq.is-inview .faq-item:nth-child(1) { transition-delay: 0ms; }
+  .faq.is-inview .faq-item:nth-child(2) { transition-delay: 50ms; }
+  .faq.is-inview .faq-item:nth-child(3) { transition-delay: 100ms; }
+  .faq.is-inview .faq-item:nth-child(4) { transition-delay: 150ms; }
+  .faq.is-inview .faq-item:nth-child(5) { transition-delay: 200ms; }
+  .faq.is-inview .faq-item:nth-child(6) { transition-delay: 250ms; }
+
+  .faq-a-wrap {
+    opacity: 0;
+    transition: grid-template-rows 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+  }
+
+  .faq-item[open] .faq-a-wrap {
+    opacity: 1;
+  }
+
+  /* --- Urgencias card + checklist --- */
+  .emergency {
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .emergency.is-inview {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .emergency-list li {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .emergency.is-inview .emergency-list li {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .emergency.is-inview .emergency-list li:nth-child(1) { transition-delay: 0.28s; }
+  .emergency.is-inview .emergency-list li:nth-child(2) { transition-delay: 0.38s; }
+  .emergency.is-inview .emergency-list li:nth-child(3) { transition-delay: 0.48s; }
+
+  .emergency-wa-btn {
+    animation: motion-emergency-wa-pulse 9s ease-in-out 2s infinite;
+  }
+
+  @keyframes motion-emergency-wa-pulse {
+    0%, 88%, 100% {
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+      transform: scale(1);
+    }
+    94% {
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22), 0 0 0 8px rgba(255, 255, 255, 0.18);
+      transform: scale(1.03);
+    }
+  }
+
+  /* --- Contact grid directional reveal --- */
+  .contact-grid .info-card,
+  .contact-grid .contact-form {
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .contact-grid .info-card {
+    transform: translate3d(-40px, 0, 0);
+  }
+
+  .contact-grid .contact-form {
+    transform: translate3d(40px, 0, 0);
+    transition-delay: 0.1s;
+  }
+
+  @media (max-width: 860px) {
+    .contact-grid .info-card,
+    .contact-grid .contact-form {
+      transform: translate3d(0, 28px, 0);
+    }
+
+    .contact-grid .contact-form {
+      transition-delay: 0.08s;
+    }
+  }
+
+  .contact-grid.is-inview .info-card,
+  .contact-grid.is-inview .contact-form {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-grid > div:first-child > .eyebrow,
     .hero-grid > div:first-child > h1,
@@ -764,6 +926,74 @@
     .service-list li:hover,
     .service-list li:active {
       transform: none;
+    }
+
+    .testi-grid .testi,
+    .testi-grid .testi-stars,
+    .testi-grid .testi p.body,
+    .testi-grid .testi-who {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .testi-grid.is-inview .testi:nth-child(1),
+    .testi-grid.is-inview .testi:nth-child(2),
+    .testi-grid.is-inview .testi:nth-child(3),
+    .testi-grid.is-inview .testi:nth-child(1) .testi-stars,
+    .testi-grid.is-inview .testi:nth-child(2) .testi-stars,
+    .testi-grid.is-inview .testi:nth-child(3) .testi-stars,
+    .testi-grid.is-inview .testi:nth-child(1) p.body,
+    .testi-grid.is-inview .testi:nth-child(2) p.body,
+    .testi-grid.is-inview .testi:nth-child(3) p.body,
+    .testi-grid.is-inview .testi:nth-child(1) .testi-who,
+    .testi-grid.is-inview .testi:nth-child(2) .testi-who,
+    .testi-grid.is-inview .testi:nth-child(3) .testi-who {
+      transition-delay: 0s;
+    }
+
+    .faq .faq-item {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .faq.is-inview .faq-item:nth-child(1),
+    .faq.is-inview .faq-item:nth-child(2),
+    .faq.is-inview .faq-item:nth-child(3),
+    .faq.is-inview .faq-item:nth-child(4),
+    .faq.is-inview .faq-item:nth-child(5),
+    .faq.is-inview .faq-item:nth-child(6) {
+      transition-delay: 0s;
+    }
+
+    .faq-a-wrap {
+      opacity: 1;
+      transition: none;
+    }
+
+    .emergency,
+    .emergency-list li {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .emergency.is-inview .emergency-list li:nth-child(1),
+    .emergency.is-inview .emergency-list li:nth-child(2),
+    .emergency.is-inview .emergency-list li:nth-child(3) {
+      transition-delay: 0s;
+    }
+
+    .emergency-wa-btn {
+      animation: none;
+    }
+
+    .contact-grid .info-card,
+    .contact-grid .contact-form {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.35s ease;
     }
   }
 </style>
@@ -943,17 +1173,56 @@
     trustObserver.observe(trustbar);
   }
 
+  function observeInview(el, className) {
+    if (!el) return;
+
+    if (reducedMotion) {
+      el.classList.add(className || 'is-inview');
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(className || 'is-inview');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+
+    observer.observe(el);
+  }
+
+  function initTestimonialsReveal() {
+    observeInview(document.querySelector('.testi-grid'));
+  }
+
+  function initFaqReveal() {
+    observeInview(document.querySelector('.faq'));
+  }
+
+  function initEmergencyReveal() {
+    observeInview(document.querySelector('.emergency'));
+  }
+
+  function initContactReveal() {
+    observeInview(document.querySelector('.contact-grid'));
+  }
+
   function initScrollReveal() {
     var stepsSection = document.querySelector('.steps-timeline');
+    var testiSection = sectionOf(document.querySelector('.testi-grid'));
+    var faqSection = sectionOf(document.querySelector('.faq'));
+    var contactSection = sectionOf(document.querySelector('.contact-grid'));
+
     var targets = [
       stepsSection && stepsSection.closest('section') ? stepsSection.closest('section').querySelector('.section-head') : null,
       document.getElementById('servicios'),
       sectionOf(document.querySelector('.about')),
-      sectionOf(document.querySelector('.testi-grid')),
-      sectionOf(document.querySelector('.faq')),
+      testiSection ? testiSection.querySelector('.section-head') : null,
+      faqSection ? faqSection.querySelector('.section-head') : null,
       sectionOf(document.querySelector('.payment-card')),
-      document.querySelector('#emergencias .emergency') || document.getElementById('emergencias'),
-      sectionOf(document.querySelector('.contact-grid')),
+      contactSection ? contactSection.querySelector('.section-head') : null,
       sectionOf(document.querySelector('.final-cta'))
     ].filter(Boolean);
 
@@ -1065,6 +1334,10 @@
   initTrustBarReveal();
   initStepsTimeline();
   initScrollReveal();
+  initTestimonialsReveal();
+  initFaqReveal();
+  initEmergencyReveal();
+  initContactReveal();
   initParallax();
   initWhatsAppFloat();
 })();
