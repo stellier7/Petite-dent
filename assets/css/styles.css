@@ -193,15 +193,25 @@ footer .brand-mark {
 
 .topbar .btn { padding: 11px 20px; font-size: 15px; }
 
-.topbar-phone {
-  font-family: 'Nunito Sans';
-  font-weight: 700;
-  color: var(--mint-800);
-  display: none;
+.topbar-btn-short { display: inline; }
+.topbar-btn-full { display: none; }
+
+@media (max-width: 719px) {
+  .topbar-inner { padding: 12px 16px; }
+
+  .topbar .btn {
+    padding: 9px 14px;
+    font-size: 13.5px;
+    white-space: nowrap;
+  }
+
+  .brand { font-size: 17px; }
+  .brand-mark { width: 34px; height: 34px; }
 }
 
 @media (min-width: 720px) {
-  .topbar-phone { display: inline-flex; align-items: center; gap: 6px; }
+  .topbar-btn-short { display: none; }
+  .topbar-btn-full { display: inline; }
 }
 
 .hero {
