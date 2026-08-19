@@ -653,7 +653,7 @@ footer .brand-mark {
 .gallery-slide {
   flex: none;
   width: min(320px, 72vw);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 5 / 7;
   margin: 0;
   border-radius: var(--radius-md);
   overflow: hidden;

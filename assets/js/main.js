@@ -65,6 +65,10 @@ function applyTabIndicatorMetrics(metrics, animate = true) {
   serviceTabIndicator.style.height = `${metrics.h}px`;
   serviceTabIndicator.style.transform = `translate3d(${metrics.x}px, ${metrics.y}px, 0)`;
 
+  if (serviceTabList) {
+    serviceTabList.classList.add('is-indicator-ready');
+  }
+
   if (!animate || reducedMotion) {
     requestAnimationFrame(() => {
       if (serviceTabIndicator) serviceTabIndicator.style.transition = '';
