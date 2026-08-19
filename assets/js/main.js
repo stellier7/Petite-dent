@@ -1,6 +1,8 @@
 const tabs = document.querySelectorAll('.service-tab');
 const panels = document.querySelectorAll('.service-panel');
 const serviciosSection = document.getElementById('servicios');
+const serviceTabList = document.querySelector('.service-tabs');
+const serviceTabIndicator = document.querySelector('.service-tab-indicator');
 const serviceViewport = document.querySelector('.service-panels-viewport');
 const serviceTrack = document.querySelector('.service-panels-track');
 
@@ -38,6 +40,74 @@ function updateServiceViewportHeight(index) {
   serviceViewport.style.height = `${panels[index].offsetHeight}px`;
 }
 
+function getTabMetrics(index) {
+  const tab = tabs[index];
+  if (!tab) return null;
+
+  return {
+    x: tab.offsetLeft,
+    y: tab.offsetTop,
+    w: tab.offsetWidth,
+    h: tab.offsetHeight,
+  };
+}
+
+function applyTabIndicatorMetrics(metrics, animate = true) {
+  if (!serviceTabIndicator || !metrics) return;
+
+  if (!animate || reducedMotion) {
+    serviceTabIndicator.style.transition = 'none';
+  } else {
+    serviceTabIndicator.style.transition = '';
+  }
+
+  serviceTabIndicator.style.width = `${metrics.w}px`;
+  serviceTabIndicator.style.height = `${metrics.h}px`;
+  serviceTabIndicator.style.transform = `translate3d(${metrics.x}px, ${metrics.y}px, 0)`;
+
+  if (!animate || reducedMotion) {
+    requestAnimationFrame(() => {
+      if (serviceTabIndicator) serviceTabIndicator.style.transition = '';
+    });
+  }
+}
+
+function updateTabIndicator(index, animate = true) {
+  applyTabIndicatorMetrics(getTabMetrics(index), animate);
+}
+
+function updateTabIndicatorFromDrag(index, dragPx) {
+  if (!serviceViewport || !serviceTabIndicator) return;
+
+  const width = serviceViewport.offsetWidth || 1;
+  const progress = Math.max(-1, Math.min(1, -dragPx / width));
+  const from = getTabMetrics(index);
+  if (!from) return;
+
+  let targetIndex = index;
+  if (progress > 0 && index > 0) targetIndex = index - 1;
+  else if (progress < 0 && index < tabs.length - 1) targetIndex = index + 1;
+
+  if (targetIndex === index) {
+    applyTabIndicatorMetrics({
+      ...from,
+      x: from.x + dragPx * 0.06,
+    }, false);
+    return;
+  }
+
+  const to = getTabMetrics(targetIndex);
+  if (!to) return;
+
+  const t = Math.abs(progress);
+  applyTabIndicatorMetrics({
+    x: from.x + (to.x - from.x) * t,
+    y: from.y + (to.y - from.y) * t,
+    w: from.w + (to.w - from.w) * t,
+    h: from.h + (to.h - from.h) * t,
+  }, false);
+}
+
 function setTrackTransform(index, dragPx = 0, animate = true) {
   if (!serviceTrack || !serviceViewport) return;
 
@@ -54,6 +124,10 @@ function setTrackTransform(index, dragPx = 0, animate = true) {
   }
 
   serviceTrack.style.transform = `translate3d(${basePercent + dragPercent}%, 0, 0)`;
+
+  if (dragPx !== 0) {
+    updateTabIndicatorFromDrag(index, dragPx);
+  }
 }
 
 function activateTab(index, options = {}) {
@@ -66,6 +140,7 @@ function activateTab(index, options = {}) {
   syncPanelVisibility(index);
   setTrackTransform(index, 0, animate);
   currentTabIndex = index;
+  updateTabIndicator(index, animate);
 
   requestAnimationFrame(() => {
     updateServiceViewportHeight(index);
@@ -230,6 +305,18 @@ if (tabs.length && serviceTrack) {
   window.addEventListener('resize', () => {
     updateServiceViewportHeight(currentTabIndex);
     setTrackTransform(currentTabIndex, 0, false);
+    updateTabIndicator(currentTabIndex, false);
+  });
+
+  if (serviceTabList && window.ResizeObserver) {
+    const tabListObserver = new ResizeObserver(() => {
+      updateTabIndicator(currentTabIndex, false);
+    });
+    tabListObserver.observe(serviceTabList);
+  }
+
+  window.addEventListener('load', () => {
+    updateTabIndicator(currentTabIndex, false);
   });
 
   if (!reducedMotion && serviciosSection) {

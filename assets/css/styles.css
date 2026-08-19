@@ -333,13 +333,28 @@ footer .brand-mark {
 .center { text-align: center; margin-left: auto; margin-right: auto; }
 
 .service-tabs {
+  position: relative;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 30px;
 }
 
+.service-tab-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: 999px;
+  background: var(--mint-700);
+  box-shadow: 0 8px 18px rgba(44, 114, 104, 0.22);
+  pointer-events: none;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), width 0.75s cubic-bezier(0.22, 1, 0.36, 1), height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .service-tab {
+  position: relative;
+  z-index: 1;
   font-family: 'Baloo 2';
   font-weight: 700;
   font-size: 15px;
@@ -352,13 +367,19 @@ footer .brand-mark {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .service-tab[aria-selected="true"] {
-  background: var(--mint-700);
   color: #fff;
-  border-color: var(--mint-700);
+  background: transparent;
+  border-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-tab-indicator {
+    transition: none;
+  }
 }
 
 .service-panels-viewport {
