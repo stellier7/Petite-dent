@@ -585,6 +585,34 @@
     transform: translate3d(0, 0, 0);
   }
 
+  /* --- Trust bar directional reveals --- */
+  .trustbar .trust-item {
+    opacity: 0;
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .trustbar .trust-item:nth-child(1) {
+    transform: translate3d(-40px, 0, 0);
+  }
+
+  .trustbar .trust-item:nth-child(2) {
+    transform: translate3d(0, 36px, 0);
+  }
+
+  .trustbar .trust-item:nth-child(3) {
+    transform: translate3d(40px, 0, 0);
+  }
+
+  .trustbar.is-inview .trust-item {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .trustbar.is-inview .trust-item:nth-child(1) { transition-delay: 0.06s; }
+  .trustbar.is-inview .trust-item:nth-child(2) { transition-delay: 0.16s; }
+  .trustbar.is-inview .trust-item:nth-child(3) { transition-delay: 0.26s; }
+
   /* --- Parallax layers --- */
   .motion-parallax {
     will-change: transform;
@@ -691,6 +719,17 @@
       transition: opacity 0.35s ease;
     }
 
+    .trustbar .trust-item {
+      transform: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .trustbar.is-inview .trust-item:nth-child(1),
+    .trustbar.is-inview .trust-item:nth-child(2),
+    .trustbar.is-inview .trust-item:nth-child(3) {
+      transition-delay: 0s;
+    }
+
     .motion-parallax {
       transform: none !important;
     }
@@ -763,9 +802,24 @@
     artObserver.observe(heroArt);
   }
 
+  function initTrustBarReveal() {
+    var trustbar = document.querySelector('.trustbar');
+    if (!trustbar) return;
+
+    var trustObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          trustbar.classList.add('is-inview');
+          trustObserver.unobserve(trustbar);
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -4% 0px' });
+
+    trustObserver.observe(trustbar);
+  }
+
   function initScrollReveal() {
     var targets = [
-      document.querySelector('.trustbar'),
       document.getElementById('servicios'),
       sectionOf(document.querySelector('.about')),
       sectionOf(document.querySelector('.steps')),
@@ -882,6 +936,7 @@
 
   initHeroSequence();
   initHeroArtEntrance();
+  initTrustBarReveal();
   initScrollReveal();
   initParallax();
   initWhatsAppFloat();
