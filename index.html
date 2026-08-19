@@ -489,6 +489,303 @@
   <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.35a9.9 9.9 0 004.62 1.15h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.13.11-1.82-.11-.42-.14-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.26-.28.58-.35.77-.35h.55c.18 0 .42-.04.65.5.24.57.8 1.98.87 2.13.07.14.11.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.14-.28.28-.12.55.16.28.72 1.18 1.54 1.91 1.06.95 1.95 1.24 2.23 1.38.28.14.44.12.6-.07.16-.19.68-.79.87-1.06.18-.28.37-.23.62-.14.26.09 1.63.77 1.91.91.28.14.47.21.54.33.07.12.07.68-.17 1.35z"/></svg>
 </a>
 
+<style id="motion-styles">
+  /* --- Hero load sequence --- */
+  .hero-grid > div:first-child > .eyebrow,
+  .hero-grid > div:first-child > h1,
+  .hero-grid > div:first-child > .hero-sub,
+  .hero-grid > div:first-child > .hero-ctas,
+  .hero-grid > div:first-child > .trust-chip {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  body.motion-ready .hero-grid > div:first-child > .eyebrow {
+    animation: motion-hero-in 0.34s ease forwards;
+    animation-delay: 0.04s;
+  }
+
+  body.motion-ready .hero-grid > div:first-child > h1 {
+    animation: motion-hero-in 0.34s ease forwards;
+    animation-delay: 0.1s;
+  }
+
+  body.motion-ready .hero-grid > div:first-child > .hero-sub {
+    animation: motion-hero-in 0.34s ease forwards;
+    animation-delay: 0.16s;
+  }
+
+  body.motion-ready .hero-grid > div:first-child > .hero-ctas {
+    animation: motion-hero-in 0.34s ease forwards;
+    animation-delay: 0.22s;
+  }
+
+  body.motion-ready .hero-grid > div:first-child > .trust-chip {
+    animation: motion-hero-in 0.34s ease forwards;
+    animation-delay: 0.28s;
+  }
+
+  @keyframes motion-hero-in {
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* --- Scroll reveal --- */
+  .motion-reveal {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    will-change: opacity, transform;
+  }
+
+  .motion-reveal.is-inview {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* --- Parallax layers --- */
+  .motion-parallax {
+    will-change: transform;
+  }
+
+  /* --- Micro-interactions (buttons + service UI) --- */
+  .btn,
+  .service-tab,
+  .service-list li {
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, color 0.16s ease, border-color 0.16s ease !important;
+  }
+
+  .btn:hover,
+  .btn.btn-coral:hover,
+  .btn.btn-outline:hover,
+  .btn.btn-ghost-mint:hover {
+    transform: translate3d(0, -3px, 0) scale(1.02);
+  }
+
+  .btn:active,
+  .btn.btn-coral:active,
+  .btn.btn-outline:active,
+  .btn.btn-ghost-mint:active {
+    transform: translate3d(0, -1px, 0) scale(0.98);
+  }
+
+  .service-tab:hover {
+    transform: translate3d(0, -2px, 0);
+  }
+
+  .service-tab:active {
+    transform: translate3d(0, 0, 0) scale(0.98);
+  }
+
+  .service-list li:hover {
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 8px 18px rgba(31, 83, 75, 0.08);
+  }
+
+  .service-list li:active {
+    transform: translate3d(0, 0, 0) scale(0.99);
+  }
+
+  /* --- WhatsApp float entrance + pulse --- */
+  .wa-float.motion-wa-pending {
+    opacity: 0;
+    transform: scale(0.88);
+    pointer-events: none;
+  }
+
+  .wa-float.motion-wa-entered {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    transition: opacity 0.35s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    animation: motion-wa-glow 3.2s ease-in-out 9s infinite;
+  }
+
+  .wa-float.motion-wa-entered:hover {
+    transform: scale(1.07);
+  }
+
+  .wa-float.motion-wa-entered:active {
+    transform: scale(1.02);
+  }
+
+  @keyframes motion-wa-glow {
+    0%, 86%, 100% {
+      box-shadow: 0 12px 26px rgba(238, 110, 76, 0.45);
+    }
+    93% {
+      box-shadow: 0 14px 30px rgba(238, 110, 76, 0.58), 0 0 0 10px rgba(238, 110, 76, 0.1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-grid > div:first-child > .eyebrow,
+    .hero-grid > div:first-child > h1,
+    .hero-grid > div:first-child > .hero-sub,
+    .hero-grid > div:first-child > .hero-ctas,
+    .hero-grid > div:first-child > .trust-chip {
+      transform: none;
+      animation: motion-hero-fade 0.35s ease forwards !important;
+      animation-delay: 0s !important;
+    }
+
+    body.motion-ready .hero-grid > div:first-child > .eyebrow { animation-delay: 0.04s !important; }
+    body.motion-ready .hero-grid > div:first-child > h1 { animation-delay: 0.08s !important; }
+    body.motion-ready .hero-grid > div:first-child > .hero-sub { animation-delay: 0.12s !important; }
+    body.motion-ready .hero-grid > div:first-child > .hero-ctas { animation-delay: 0.16s !important; }
+    body.motion-ready .hero-grid > div:first-child > .trust-chip { animation-delay: 0.2s !important; }
+
+    @keyframes motion-hero-fade {
+      to { opacity: 1; }
+    }
+
+    .motion-reveal {
+      transform: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .motion-parallax {
+      transform: none !important;
+    }
+
+    .wa-float.motion-wa-pending,
+    .wa-float.motion-wa-entered {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      animation: none;
+    }
+
+    .btn:hover,
+    .btn:active,
+    .btn.btn-coral:hover,
+    .btn.btn-coral:active,
+    .btn.btn-outline:hover,
+    .btn.btn-outline:active,
+    .btn.btn-ghost-mint:hover,
+    .btn.btn-ghost-mint:active,
+    .service-tab:hover,
+    .service-tab:active,
+    .service-list li:hover,
+    .service-list li:active {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var parallaxNodes = [];
+  var parallaxTicking = false;
+
+  function sectionOf(el) {
+    return el ? (el.closest('section') || el) : null;
+  }
+
+  function initHeroSequence() {
+    requestAnimationFrame(function () {
+      document.body.classList.add('motion-ready');
+    });
+  }
+
+  function initScrollReveal() {
+    var targets = [
+      document.querySelector('.trustbar'),
+      document.getElementById('servicios'),
+      sectionOf(document.querySelector('.about')),
+      sectionOf(document.querySelector('.steps')),
+      sectionOf(document.querySelector('.testi-grid')),
+      sectionOf(document.querySelector('.faq')),
+      sectionOf(document.querySelector('.payment-card')),
+      document.querySelector('#emergencias .emergency') || document.getElementById('emergencias'),
+      sectionOf(document.querySelector('.contact-grid')),
+      sectionOf(document.querySelector('.final-cta'))
+    ].filter(Boolean);
+
+    if (!targets.length) return;
+
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-inview');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+    targets.forEach(function (el) {
+      el.classList.add('motion-reveal');
+      revealObserver.observe(el);
+    });
+  }
+
+  function updateParallax() {
+    parallaxTicking = false;
+    if (reducedMotion || !parallaxNodes.length) return;
+
+    var viewportH = window.innerHeight;
+
+    parallaxNodes.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > viewportH) return;
+
+      var offset = (rect.top - viewportH * 0.32) * 0.1;
+      if (offset > 24) offset = 24;
+      if (offset < -24) offset = -24;
+      el.style.transform = 'translate3d(0, ' + offset.toFixed(2) + 'px, 0)';
+    });
+  }
+
+  function requestParallaxUpdate() {
+    if (!parallaxTicking) {
+      parallaxTicking = true;
+      requestAnimationFrame(updateParallax);
+    }
+  }
+
+  function initParallax() {
+    if (reducedMotion) return;
+
+    var heroArt = document.querySelector('.hero-art');
+    var aboutPhoto = document.querySelector('.about .site-photo');
+
+    [heroArt, aboutPhoto].forEach(function (el) {
+      if (!el) return;
+      el.classList.add('motion-parallax');
+      parallaxNodes.push(el);
+    });
+
+    if (!parallaxNodes.length) return;
+
+    window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+    window.addEventListener('resize', requestParallaxUpdate, { passive: true });
+    requestParallaxUpdate();
+  }
+
+  function initWhatsAppFloat() {
+    var wa = document.querySelector('.wa-float');
+    if (!wa) return;
+
+    wa.classList.add('motion-wa-pending');
+
+    window.setTimeout(function () {
+      wa.classList.remove('motion-wa-pending');
+      wa.classList.add('motion-wa-entered');
+    }, reducedMotion ? 0 : 1200);
+  }
+
+  initHeroSequence();
+  initScrollReveal();
+  initParallax();
+  initWhatsAppFloat();
+})();
+</script>
+
 <script src="assets/js/main.js"></script>
 </body>
 </html>
