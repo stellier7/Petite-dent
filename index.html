@@ -539,7 +539,7 @@
   }
 
   .hero-art.is-visible {
-    animation: motion-hero-art-in 0.78s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: motion-hero-art-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: 0.08s;
   }
 
@@ -556,7 +556,7 @@
     }
 
     .hero-art.is-visible {
-      animation: motion-hero-art-in-mobile 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: motion-hero-art-in-mobile 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       animation-delay: 0.06s;
     }
 
@@ -747,7 +747,7 @@
         artObserver.unobserve(heroArt);
 
         if (!reducedMotion) {
-          var animMs = window.innerWidth > 880 ? 860 : 680;
+          var animMs = window.innerWidth > 880 ? 1280 : 1110;
           window.setTimeout(function () {
             heroParallaxReady = true;
             requestParallaxUpdate();
