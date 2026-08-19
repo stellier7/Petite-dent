@@ -655,6 +655,14 @@ footer .brand-mark {
   .steps-line-fill {
     transition: none;
   }
+
+  .steps-timeline--inview .step {
+    transition-delay: 0s !important;
+  }
+
+  .steps-timeline--inview .step-num {
+    animation: none !important;
+  }
 }
 
 .step h4 { font-size: 18px; margin-bottom: 8px; }
@@ -682,7 +690,13 @@ footer .brand-mark {
   animation: gallery-scroll 55s linear infinite;
 }
 
-.gallery-marquee:hover .gallery-track {
+@media (hover: hover) and (pointer: fine) {
+  .gallery-marquee:hover .gallery-track {
+    animation-play-state: paused;
+  }
+}
+
+.gallery-marquee.is-paused .gallery-track {
   animation-play-state: paused;
 }
 
@@ -696,6 +710,7 @@ footer .brand-mark {
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   background: var(--paper);
+  cursor: pointer;
 }
 
 .gallery-slide img {
@@ -726,6 +741,51 @@ footer .brand-mark {
   .gallery-slide[aria-hidden="true"] {
     display: none;
   }
+}
+
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(31, 83, 75, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.gallery-lightbox[hidden] {
+  display: none;
+}
+
+.gallery-lightbox img {
+  max-width: min(920px, 100%);
+  max-height: calc(100vh - 48px);
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+  object-fit: contain;
+}
+
+.gallery-lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gallery-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }

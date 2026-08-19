@@ -381,3 +381,50 @@ if (contactForm) {
     contactForm.reset();
   });
 }
+
+function initGalleryLightbox() {
+  const lightbox = document.getElementById('gallery-lightbox');
+  const lightboxImage = lightbox?.querySelector('img');
+  const closeButton = lightbox?.querySelector('.gallery-lightbox-close');
+  const galleryMarquee = document.querySelector('.gallery-marquee');
+  const slides = document.querySelectorAll('.gallery-slide:not([aria-hidden="true"])');
+
+  if (!lightbox || !lightboxImage || !closeButton || !slides.length) return;
+
+  const openLightbox = (src, alt) => {
+    lightboxImage.src = src;
+    lightboxImage.alt = alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    galleryMarquee?.classList.add('is-paused');
+    closeButton.focus();
+  };
+
+  const closeLightbox = () => {
+    lightbox.hidden = true;
+    lightboxImage.src = '';
+    lightboxImage.alt = '';
+    document.body.style.overflow = '';
+    galleryMarquee?.classList.remove('is-paused');
+  };
+
+  slides.forEach((slide) => {
+    slide.addEventListener('click', () => {
+      const img = slide.querySelector('img');
+      if (!img) return;
+      openLightbox(img.src, img.alt);
+    });
+  });
+
+  closeButton.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !lightbox.hidden) closeLightbox();
+  });
+}
+
+initGalleryLightbox();
