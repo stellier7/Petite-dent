@@ -812,17 +812,33 @@
     var lineFill = document.querySelector('.steps-line-fill');
     if (!steps.length || !lineFill) return;
 
-    var revealedSteps = [];
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var visibleSteps = new Array(steps.length).fill(false);
 
     function isVerticalLayout() {
       return window.matchMedia('(max-width: 900px)').matches;
     }
 
     function updateStepsTimeline() {
-      if (!revealedSteps.length) return;
+      var maxIndex = -1;
+      for (var i = 0; i < visibleSteps.length; i++) {
+        if (visibleSteps[i]) maxIndex = i;
+      }
 
-      var maxIndex = Math.max.apply(null, revealedSteps);
+      if (maxIndex === -1) {
+        if (isVerticalLayout()) {
+          lineFill.style.width = '100%';
+          lineFill.style.height = '0%';
+        } else {
+          lineFill.style.height = '100%';
+          lineFill.style.width = '0%';
+        }
+
+        steps.forEach(function (step) {
+          step.classList.remove('is-revealed', 'is-passed', 'is-active');
+        });
+        return;
+      }
+
       var progress = ((maxIndex + 1) / steps.length) * 100;
 
       if (isVerticalLayout()) {
@@ -834,9 +850,8 @@
       }
 
       steps.forEach(function (step, index) {
-        var isRevealed = revealedSteps.indexOf(index) !== -1;
-        step.classList.toggle('is-revealed', isRevealed);
-        step.classList.toggle('is-passed', isRevealed && index < maxIndex);
+        step.classList.toggle('is-revealed', index <= maxIndex);
+        step.classList.toggle('is-passed', index < maxIndex);
         step.classList.toggle('is-active', index === maxIndex);
       });
     }
@@ -844,14 +859,10 @@
     steps.forEach(function (step, index) {
       var stepObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          if (revealedSteps.indexOf(index) === -1) {
-            revealedSteps.push(index);
-            updateStepsTimeline();
-          }
-          if (!reduced) stepObserver.unobserve(step);
+          visibleSteps[index] = entry.isIntersecting;
+          updateStepsTimeline();
         });
-      }, { threshold: 0.42, rootMargin: '0px 0px -8% 0px' });
+      }, { threshold: [0, 0.35, 0.6], rootMargin: '0px 0px -6% 0px' });
 
       stepObserver.observe(step);
     });
