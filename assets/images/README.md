@@ -1,36 +1,18 @@
 # Imágenes del sitio — Petite Dent
 
-Sube tus fotos en esta carpeta con **exactamente** estos nombres de archivo. El sitio las cargará automáticamente.
+## Archivos en uso
 
-## Carpeta en GitHub
+| Archivo | Uso |
+|---------|-----|
+| `logo.jpeg` | Logo en header, footer e icono del navegador |
+| `hero-doctor-patient.jpeg` | Foto principal del hero |
+| `doctor-portait.jpeg` | Sección "Sobre la doctora" |
+| `IMG_0284.jpeg` … `IMG_0296.jpeg` | Galería auto-desplazable del consultorio |
 
-**Ruta:** `assets/images/`
+## Galería
 
-**Enlace directo para subir archivos:**
-https://github.com/stellier7/Petite-dent/tree/main/assets/images
+Para agregar o quitar fotos de la galería, edita la sección `#galeria` en `index.html` (cada imagen aparece dos veces en el carril para el scroll infinito).
 
-(Puedes arrastrar y soltar archivos desde el botón **Add file → Upload files** en GitHub.)
+## og-image (opcional)
 
----
-
-## Archivos requeridos
-
-| Archivo | Uso en el sitio | Recomendación |
-|---------|-----------------|---------------|
-| `hero-doctor-patient.jpg` | Foto principal del hero (arriba) | Dra. Mendoza sonriendo con una paciente pequeña en el consultorio. Proporción vertical (4:5). Mín. 800×1000 px. |
-| `doctor-portrait.jpg` | Sección "Sobre la doctora" | Retrato profesional de la Dra. Mendoza en el consultorio. Proporción vertical (4:5). Mín. 640×800 px. |
-| `og-image.jpg` | Vista previa al compartir en WhatsApp/redes | Imagen horizontal 1200×630 px con logo o foto del consultorio. |
-
-## Formato
-
-- **Formato preferido:** `.jpg` o `.webp`
-- **Peso:** idealmente menos de 300 KB por imagen (comprime en [squoosh.app](https://squoosh.app) si hace falta)
-- **Nombres:** respeta los nombres exactos de la tabla (minúsculas, con guiones)
-
-## Si aún no tienes las fotos
-
-El sitio muestra un placeholder amable hasta que subas las imágenes. No hace falta cambiar código — solo sube los archivos con los nombres correctos.
-
-## Opcional
-
-- `consultorio-1.jpg`, `consultorio-2.jpg` — reservados para futuras galerías (aún no usados en el sitio).
+Si algún día quieres una vista previa bonita al compartir el link en WhatsApp, sube una imagen horizontal llamada `og-image.jpg` (1200×630 px) y actualiza la meta etiqueta `og:image` en `index.html`. No es obligatorio — el sitio funciona sin ella.
