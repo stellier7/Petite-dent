@@ -39,5 +39,4 @@ Enlace directo: https://github.com/stellier7/Petite-dent/tree/main/assets/images
 
 ## Pendiente (opcional)
 
-- Enlaces de Facebook e Instagram en el footer (actualmente `#`)
-- Dominio personalizado (ej. `petitedent.hn`) en GitHub Pages Settings
+- Dominio personalizado o despliegue en Vercel
