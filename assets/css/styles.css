@@ -1120,6 +1120,25 @@ footer .brand { color: #fff; }
   color: rgba(255, 255, 255, 0.6);
 }
 
+.footer-credit {
+  margin-top: 14px;
+  padding-bottom: 6px;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+}
+
+.footer-credit a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.footer-credit a:hover {
+  color: var(--coral-400);
+}
+
 .wa-float {
   position: fixed;
   right: 20px;
