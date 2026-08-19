@@ -521,6 +521,42 @@ footer .brand-mark {
   transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1), height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+@media (min-width: 901px) {
+  .steps-timeline--inview .steps-line-fill {
+    width: 100%;
+    transition-duration: 1.05s;
+  }
+
+  .steps-timeline--inview .step:nth-child(1) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0.12s;
+  }
+
+  .steps-timeline--inview .step:nth-child(2) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0.24s;
+  }
+
+  .steps-timeline--inview .step:nth-child(3) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0.36s;
+  }
+
+  .steps-timeline--inview .step:nth-child(4) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0.48s;
+  }
+
+  .steps-timeline--inview .step:nth-child(1) .step-num { animation: step-num-pulse 0.65s ease 0.2s; }
+  .steps-timeline--inview .step:nth-child(2) .step-num { animation: step-num-pulse 0.65s ease 0.32s; }
+  .steps-timeline--inview .step:nth-child(3) .step-num { animation: step-num-pulse 0.65s ease 0.44s; }
+  .steps-timeline--inview .step:nth-child(4) .step-num { animation: step-num-pulse 0.65s ease 0.56s; }
+}
+
 .steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
