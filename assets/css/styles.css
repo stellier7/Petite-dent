@@ -206,7 +206,7 @@ footer .brand-mark {
   }
 
   .brand { font-size: 17px; }
-  .brand-mark { width: 34px; height: 34px; }
+  .brand-mark { height: 34px; }
 }
 
 @media (min-width: 720px) {
