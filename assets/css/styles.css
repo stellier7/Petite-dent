@@ -72,6 +72,27 @@ section { padding: 88px 0; }
   display: inline-block;
 }
 
+.eyebrow-hero {
+  flex-wrap: wrap;
+  row-gap: 2px;
+}
+
+.eyebrow-hero__sep {
+  text-transform: none;
+}
+
+@media (max-width: 880px) {
+  .eyebrow-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .eyebrow-hero__sep {
+    display: none;
+  }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
