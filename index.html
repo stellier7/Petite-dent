@@ -880,7 +880,7 @@
             visibleSteps[index] = entry.isIntersecting;
             updateMobileTimeline();
           });
-        }, { threshold: [0, 0.25, 0.5, 0.75], rootMargin: '0px 0px -4% 0px' });
+        }, { threshold: 0, rootMargin: '-36% 0px -36% 0px' });
 
         stepObserver.observe(step);
         stepObservers.push(stepObserver);
