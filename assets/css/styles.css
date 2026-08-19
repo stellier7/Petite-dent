@@ -365,6 +365,13 @@ footer .brand-mark {
   overflow: hidden;
   border-radius: var(--radius-lg);
   transition: height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.service-panels-viewport.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .service-panels-track {
