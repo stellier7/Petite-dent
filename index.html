@@ -532,15 +532,15 @@
     }
   }
 
-  /* Hero image panel — dramatic slide from left on desktop */
+  /* Hero image panel — animates when ~1/3 visible in viewport */
   .hero-art {
     opacity: 0;
     transform: translate3d(-140px, 0, 0) scale(0.94);
   }
 
-  body.motion-ready .hero-art {
+  .hero-art.is-visible {
     animation: motion-hero-art-in 0.78s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: 0.14s;
+    animation-delay: 0.08s;
   }
 
   @keyframes motion-hero-art-in {
@@ -555,9 +555,9 @@
       transform: translate3d(-52px, 28px, 0) scale(0.97);
     }
 
-    body.motion-ready .hero-art {
-      animation: motion-hero-art-in-mobile 0.58s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      animation-delay: 0.1s;
+    .hero-art.is-visible {
+      animation: motion-hero-art-in-mobile 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: 0.06s;
     }
 
     @keyframes motion-hero-art-in-mobile {
@@ -661,11 +661,15 @@
     .hero-grid > div:first-child > h1,
     .hero-grid > div:first-child > .hero-sub,
     .hero-grid > div:first-child > .hero-ctas,
-    .hero-grid > div:first-child > .trust-chip,
-    .hero-art {
+    .hero-grid > div:first-child > .trust-chip {
       transform: none;
       animation: motion-hero-fade 0.35s ease forwards !important;
       animation-delay: 0s !important;
+    }
+
+    .hero-art.is-visible {
+      transform: none;
+      animation: motion-hero-fade 0.35s ease forwards !important;
     }
 
     body.motion-ready .hero-grid > div:first-child > .eyebrow { animation-delay: 0.04s !important; }
@@ -673,7 +677,6 @@
     body.motion-ready .hero-grid > div:first-child > .hero-sub { animation-delay: 0.12s !important; }
     body.motion-ready .hero-grid > div:first-child > .hero-ctas { animation-delay: 0.16s !important; }
     body.motion-ready .hero-grid > div:first-child > .trust-chip { animation-delay: 0.2s !important; }
-    body.motion-ready .hero-art { animation-delay: 0.24s !important; }
 
     @keyframes motion-hero-fade {
       to { opacity: 1; }
@@ -730,6 +733,30 @@
     requestAnimationFrame(function () {
       document.body.classList.add('motion-ready');
     });
+  }
+
+  function initHeroArtEntrance() {
+    var heroArt = document.querySelector('.hero-art');
+    if (!heroArt) return;
+
+    var artObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.intersectionRatio < 0.33) return;
+
+        heroArt.classList.add('is-visible');
+        artObserver.unobserve(heroArt);
+
+        if (!reducedMotion) {
+          var animMs = window.innerWidth > 880 ? 860 : 680;
+          window.setTimeout(function () {
+            heroParallaxReady = true;
+            requestParallaxUpdate();
+          }, animMs);
+        }
+      });
+    }, { threshold: [0, 0.33, 0.5] });
+
+    artObserver.observe(heroArt);
   }
 
   function initScrollReveal() {
@@ -834,12 +861,6 @@
 
     window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
     window.addEventListener('resize', requestParallaxUpdate, { passive: true });
-
-    window.setTimeout(function () {
-      heroParallaxReady = true;
-      requestParallaxUpdate();
-    }, 920);
-
     requestParallaxUpdate();
   }
 
@@ -856,6 +877,7 @@
   }
 
   initHeroSequence();
+  initHeroArtEntrance();
   initScrollReveal();
   initParallax();
   initWhatsAppFloat();
